@@ -9,27 +9,34 @@ namespace TriviaBotApi.Controllers
     [ApiController]
     public class TriviaController : ControllerBase
     {
-        private readonly Constants constants;
+        private readonly Constants constants = new Constants();
         private readonly IClueService _clueService;
-        private readonly ILogger _logger;
+        private readonly ILogger<TriviaController> _logger;
 
-        public TriviaController(IClueService clueService, ILogger logger)
+        public TriviaController(IClueService clueService, ILogger<TriviaController> logger)
         {
             _clueService = clueService;
             _logger = logger;
         }
 
-        [HttpGet("clues")]
-        public async Task<ActionResult<ClueModel>> GetRandomClueById([FromQuery] string category)
+        [HttpGet("clue")]
+        public async Task<ActionResult<ClueModel>> GetClueByCategoryId([FromQuery] string category)
         {
             category = category.ToLower();
+            ResponseModel response = new ResponseModel();
 
             int categoryId = SelectCategoryId(category);
 
             try
             {
                 var clues = await _clueService.GetRandomClueByCategory(categoryId);
-                return Ok(clues);
+
+                var randomClue = GetRandomClue(clues);
+
+                response.Status = 200;
+                response.Clue = randomClue;
+
+                return Ok(response);
             }catch(Exception ex)
             {
                 _logger.LogError(ex.Message);
@@ -67,6 +74,17 @@ namespace TriviaBotApi.Controllers
             }
 
             return id;
+        }
+
+        private ClueModel GetRandomClue(ClueModel[] clues)
+        {
+            var random = new Random();
+
+            var randomValue = random.Next(clues.Length);
+
+            var clue = clues[randomValue];
+
+            return clue;
         }
 
     }
