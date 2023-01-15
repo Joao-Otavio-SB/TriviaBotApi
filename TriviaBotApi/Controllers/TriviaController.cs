@@ -20,10 +20,10 @@ namespace TriviaBotApi.Controllers
         }
 
         [HttpGet("clue")]
-        public async Task<ActionResult<ClueModel>> GetClueByCategoryId([FromQuery] string category)
+        public async Task<ActionResult<ResponseModel<ClueModel>>> GetClueByCategoryId([FromQuery] string category)
         {
             category = category.ToLower();
-            ResponseModel response = new ResponseModel();
+            var response = new ResponseModel<ClueModel>();
 
             int categoryId = SelectCategoryId(category);
 
@@ -34,7 +34,7 @@ namespace TriviaBotApi.Controllers
                 var randomClue = GetRandomClue(clues);
 
                 response.Status = 200;
-                response.Clue = randomClue;
+                response.Content = randomClue;
 
                 return Ok(response);
             }catch(Exception ex)
