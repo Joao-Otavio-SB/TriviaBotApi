@@ -1,19 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+﻿using TriviaBotApi.Models;
 
-namespace TriviaBotApi.Models
+namespace TriviaBotApi.DTO_s
 {
-    public class GameStats
+    public class SetGameStatsDTO
     {
-        public int Id { get; set; }
-
-        public int CategoryId { get; set; }
-
         public int UserId { get; set; }
 
-        [JsonIgnore]
-        public UserModel User { get; set; } = null;
+        public int CategoryId { get; set; }
 
         public string CategoryName { get; set; } = String.Empty;
 

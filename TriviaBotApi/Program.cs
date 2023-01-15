@@ -3,6 +3,8 @@ using Microsoft.VisualBasic;
 using RestEase;
 using TriviaBotApi.Data;
 using TriviaBotApi.Services.ClueServices;
+using TriviaBotApi.Services.GameStatsServices;
+using TriviaBotApi.Services.UserServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddLogging();
 
 builder.Services.AddSingleton(clueServiceClient);
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IGameStatsService, GameStatsService>();
 
 var app = builder.Build();
 

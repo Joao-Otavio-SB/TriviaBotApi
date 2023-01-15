@@ -10,7 +10,7 @@ namespace TriviaBotApi.Controllers
     public class AuthController : ControllerBase
     {
         [HttpPost]
-        public ActionResult<ResponseModel> RegisterUser(RegisterUserDTO user)
+        public ActionResult<ResponseModel<UserModel>> RegisterUser(RegisterUserDTO user)
         {
             return null;
         }
