@@ -44,7 +44,7 @@ namespace TriviaBotApi.Services.UserServices
             return user.First();   
         }
 
-        public async Task<List<UserModel>> SetUser(SetUserDTO user)
+        public async Task<UserModel> SetUser(SetUserDTO user)
         {
 
             var newUser = new UserModel()
@@ -56,12 +56,10 @@ namespace TriviaBotApi.Services.UserServices
             _dataContext.Users.Add(newUser);
             await _dataContext.SaveChangesAsync();
 
-            var users = GetAllUsers();
-
-            return users;
+            return newUser;
         }
 
-        public async Task<List<UserModel>> UpdateUser(UpdateUserDTO user)
+        public async Task<UserModel> UpdateUser(UpdateUserDTO user)
         {
             var newUser = GetUserById(user.UserId);
 
@@ -75,7 +73,7 @@ namespace TriviaBotApi.Services.UserServices
 
             var users = GetAllUsers();
 
-            return users;
+            return newUser;
         }
     }
 }

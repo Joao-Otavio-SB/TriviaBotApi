@@ -43,9 +43,9 @@ namespace TriviaBotApi.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<ActionResult<ResponseModel<List<UserModel>>>> SetUser([FromBody] SetUserDTO user)
+        public async Task<ActionResult<ResponseModel<UserModel>>> SetUser([FromBody] SetUserDTO user)
         {
-            var response = new ResponseModel<List<UserModel>>();
+            var response = new ResponseModel<UserModel>();
 
             response.Status = 200;
 
@@ -55,9 +55,9 @@ namespace TriviaBotApi.Controllers
         }
 
         [HttpPost("update")]
-        public async Task<ActionResult<ResponseModel<List<UserModel>>>> UpdateUser([FromBody] UpdateUserDTO user)
+        public async Task<ActionResult<ResponseModel<UserModel>>> UpdateUser([FromBody] UpdateUserDTO user)
         {
-            var response = new ResponseModel<List<UserModel>>();
+            var response = new ResponseModel<UserModel>();
 
             response.Status = 200;
 

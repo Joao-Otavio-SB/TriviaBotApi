@@ -9,9 +9,9 @@ namespace TriviaBotApi.Services.UserServices
 
         public UserModel GetUserById(int id);
 
-        public Task<List<UserModel>> SetUser(SetUserDTO user);
+        public Task<UserModel> SetUser(SetUserDTO user);
 
-        public Task<List<UserModel>> UpdateUser(UpdateUserDTO user);
+        public Task<UserModel> UpdateUser(UpdateUserDTO user);
 
         public Task<List<UserModel>> DeleteUserById(int id);
     }
