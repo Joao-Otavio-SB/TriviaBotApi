@@ -8,12 +8,10 @@ namespace TriviaBotApi.Services.UserServices
     public class UserService : IUserService
     {
         private readonly DataContext _dataContext;
-        private readonly ILogger<IUserService> _logger;
 
-        public UserService(DataContext dataContext, ILogger<IUserService> logger)
+        public UserService(DataContext dataContext)
         {
             _dataContext = dataContext;
-            _logger = logger;
         }
 
         public async Task<List<UserModel>> DeleteUserById(int id)
@@ -28,7 +26,7 @@ namespace TriviaBotApi.Services.UserServices
             return users;
         }
 
-        public List<UserModel> GetAllUsers()
+        private List<UserModel> GetAllUsers()
         {
             var users = _dataContext.Users.Include(user => user.GameStats).ToList();
 
@@ -44,13 +42,14 @@ namespace TriviaBotApi.Services.UserServices
             return user.First();   
         }
 
-        public async Task<UserModel> SetUser(SetUserDTO user)
+        public async Task<UserModel> SetUser(RegisterUserDTO user, byte[] passwordHash, byte[] passwordSalt)
         {
-
             var newUser = new UserModel()
             {
                 UserName = user.UserName,
-                Email = user.UserEmail
+                Email = user.UserEmail,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt
             };
 
             _dataContext.Users.Add(newUser);

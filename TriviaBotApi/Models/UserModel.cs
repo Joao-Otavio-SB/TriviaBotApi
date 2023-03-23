@@ -10,6 +10,10 @@ namespace TriviaBotApi.Models
 
         public string Email { get; set; } = String.Empty;
 
+        public byte[] PasswordHash { get; set; }
+
+        public byte[] PasswordSalt { get; set; }
+
         public List<GameStats> GameStats { get; set; } = null;
     }
 }

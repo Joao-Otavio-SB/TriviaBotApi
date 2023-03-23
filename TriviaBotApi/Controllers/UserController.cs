@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TriviaBotApi.DTO_s;
 using TriviaBotApi.Models;
@@ -6,6 +6,7 @@ using TriviaBotApi.Services.UserServices;
 
 namespace TriviaBotApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -25,31 +26,6 @@ namespace TriviaBotApi.Controllers
 
             response.Status = 200;
             response.Content = user;
-
-            return response;
-        }
-
-        [HttpGet("get")]
-        public ActionResult<ResponseModel<List<UserModel>>> GetAllUsers()
-        {
-            var users = _userService.GetAllUsers();
-
-            var response = new ResponseModel<List<UserModel>>();
-
-            response.Status = 200;
-            response.Content = users;
-
-            return response;
-        }
-
-        [HttpPost("add")]
-        public async Task<ActionResult<ResponseModel<UserModel>>> SetUser([FromBody] SetUserDTO user)
-        {
-            var response = new ResponseModel<UserModel>();
-
-            response.Status = 200;
-
-            response.Content = await _userService.SetUser(user);
 
             return response;
         }
