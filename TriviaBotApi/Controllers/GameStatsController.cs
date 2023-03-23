@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TriviaBotApi.DTO_s;
 using TriviaBotApi.Models;
@@ -6,6 +6,7 @@ using TriviaBotApi.Services.GameStatsServices;
 
 namespace TriviaBotApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class GameStatsController : ControllerBase
