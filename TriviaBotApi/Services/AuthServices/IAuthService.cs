@@ -10,5 +10,7 @@ namespace TriviaBotApi.Services.AuthServices
         Task<string> Login(string userEmail, string password);
 
         Task<bool> UserAlreadyExists(string userEmail);
+
+        bool IsUserLogged(string token);
     }
 }

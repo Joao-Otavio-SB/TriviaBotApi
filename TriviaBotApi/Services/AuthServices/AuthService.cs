@@ -26,8 +26,8 @@ namespace TriviaBotApi.Services.AuthServices
         {
             var user = await _dataContext.Users.FirstOrDefaultAsync(user => user.Email.ToLower() == userEmail.ToLower());
 
-            if (user == null) return "Incorrect password or e-mail!";
-            else if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt)) return "Incorrect password or e-mail";
+            if (user == null) return null;
+            else if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt)) return null;
 
             return CreateToken(user);
         }
@@ -44,6 +44,27 @@ namespace TriviaBotApi.Services.AuthServices
         public async Task<bool> UserAlreadyExists(string userEmail)
         {
             return await _dataContext.Users.AnyAsync(u => u.Email.ToLower() == userEmail.ToLower());
+        }
+
+        public bool IsUserLogged(string token)
+        {
+            var tokenTicks = GetTokenExpirationTime(token);
+            var expTime = DateTimeOffset.FromUnixTimeSeconds(tokenTicks).UtcDateTime;
+
+            var currentTime = DateTime.UtcNow;
+
+            if (expTime >= currentTime) return true;
+
+            return false;
+        }
+
+        private long GetTokenExpirationTime(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(token);
+            var tokenExp = jwtSecurityToken.Claims.First(claim => claim.Type.Equals("exp")).Value;
+            var ticks = long.Parse(tokenExp);
+            return ticks;
         }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
